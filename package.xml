@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>homeskies_gazebo</name>
-  <version>0.9.2</version>
+  <name>homeskies_greeting</name>
+  <version>0.0.1</version>
   <description>
-    First Gazebo package for Homeskies in Robocup@Home.
+    Perception testing package for Homeskies in Robocup@Home.
   </description>
   <author>Podshara Chanrungmaneekul, Edan Sneh</author>
   <maintainer email="shon2@uw.edu">Podshara Chanrungmaneekul, Edan Sneh</maintainer>
@@ -13,11 +13,9 @@
 
   <build_depend>gazebo_dev</build_depend>
 
-  <depend>gazebo_plugins</depend>
-  <depend>gazebo_ros</depend>
-  <depend>fetch_gazebo</depend>
-
-  <exec_depend>fetch_description</exec_depend>
-  <exec_depend>gazebo</exec_depend>
-  <exec_depend>xacro</exec_depend>
+  <depend>actionlib</depend>
+  <depend>control_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>rospy</depend>
+  <depend>trajectory_msgs</depend>
 </package>

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
+import rospy
 
-class Util(object):
+class Util():
+
     def euler_to_quaternion(yaw, pitch, roll):
 
         qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)

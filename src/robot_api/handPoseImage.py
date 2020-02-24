@@ -13,6 +13,7 @@ POSE_PAIRS = [ [0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[0,9],[9,10],[10,
 class HandPoseImage(object):
 
     def isHandOpen(frame, fileDir):
+        pass
         net = cv2.dnn.readNetFromCaffe(fileDir + protoFile, fileDir + weightsFile)
 
         #frame = cv2.imread("female.jpg")
@@ -42,14 +43,17 @@ class HandPoseImage(object):
             probMap = output[0, i, :, :]
             probMap = cv2.resize(probMap, (frameWidth, frameHeight))
 
-                varianceFingers += (point[0] - avgX)**2oint[1])), 8, (0, 255, 255), thickness=-1, lineType=cv2.FILLED)
+            # Find global maxima of the probMap.
+            minVal, prob, minLoc, point = cv2.minMaxLoc(probMap)
+
+            if prob > threshold :
+                cv2.circle(frameCopy, (int(point[0]), int(point[1])), 8, (0, 255, 255), thickness=-1, lineType=cv2.FILLED)
                 cv2.putText(frameCopy, "{}".format(i), (int(point[0]), int(point[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, lineType=cv2.LINE_AA)
 
                 # Add the point to the list if the probability is greater than the threshold
                 points.append((int(point[0]), int(point[1])))
             else :
                 points.append(None)
-
         avgX = 0
         avgY = 0
         for index in range(nPoints):
@@ -91,7 +95,6 @@ class HandPoseImage(object):
         #print(varianceBase)
         #print(varianceFingers)
         return varianceFingers - varianceBase > 0
-
 
     '''
     if (varianceFingers - varianceBase > 0):

@@ -234,5 +234,5 @@ class Arm(object):
         return True
 
     def reset_post(self):
-        pose = [1.32, 1.40, -0.2, 1.72, 0.0, 1.66, 0.0]
-        self.move_to_joints(ArmJoints.from_list(pose))
+        joints = [1.32, 1.40, -0.2, 1.72, 0.0, 1.66, 0.0]
+        self.move_to_joints(ArmJoints.from_list(joints))
