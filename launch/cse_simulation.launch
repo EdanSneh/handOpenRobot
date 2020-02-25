@@ -1,11 +1,22 @@
 <launch>
-    <env name="GAZEBO_MODEL_PATH" value="$(find homeskies_gazebo)/models">
+    <env name="GAZEBO_MODEL_PATH" value="$(find homeskies_greeting)/models:$(optenv GAZEBO_MODEL_PATH)"/>
     <arg name="rviz" default="true" />
-    <arg name="gui" default="true">
-    <arg name="map_file" default="$(find homeskies_gazebo)/maps/arena/homeskies_arena.yaml">
-    <include file="$(find homeskies_gazebo)/launch/homeskies.launch">
+    <arg name="gui" default="true"/>
+    <arg name="map_file" default="$(find homeskies_greeting)/maps/arena/homeskies_arena.yaml"/>
+    <arg name="world" default="$(find homeskies_greeting)/worlds/homeskies.world" />
+    
+    <include file="$(find homeskies_greeting)/launch/include/common.xml">
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="world" value="$(arg world)" />
+        <arg name="initial_pose_x" value="0.0"/>
+        <arg name="initial_pose_y" value="0.0"/>
     </include>
-    <include file="$(find homeskies_gazebo)/launch/homeskies_navigation.launch">
+
+    <include file="$(find homeskies_greeting)/launch/navigation.launch">
+        <arg name="initial_pose_x" value="0.0"/>
+        <arg name="initial_pose_y" value="0.0"/>
+        <arg name="map_file" value="$(arg map_file)"/>
     </include>
+
     <node if="$(arg rviz)" name="rviz" type="rviz" pkg="rviz" />
 </launch>
