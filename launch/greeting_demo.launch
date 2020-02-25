@@ -1,10 +1,4 @@
 <launch>
-    <arg name="rviz" default="true" />
-    <include file="$(find homeskies_gazebo)/launch/homeskies.launch">
-    </include>
-    <include file="$(find homeskies_gazebo)/launch/homeskies_navigation.launch">
-    </include>
-    <node if="$(arg rviz)" name="rviz" type="rviz" pkg="rviz" />
     <node pkg="greeting_demo" type="greeting_demo" name="greeting_demo">
         <param name="~opencv_dir" value="/home/robotics/work/learnopencv/HandPose" />
     </node>
