@@ -12,11 +12,11 @@ POSE_PAIRS = [ [0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[0,9],[9,10],[10,
 
 class HandPoseImage(object):
 
-    def isHandOpen(frame, fileDir):
+    def isHandOpen(frame):
         pass
-        net = cv2.dnn.readNetFromCaffe(fileDir + protoFile, fileDir + weightsFile)
+        net = cv2.dnn.readNetFromCaffe(protoFile, weightsFile)
 
-        #frame = cv2.imread("female.jpg")
+        frame = cv2.imread("female.jpg")
         frameCopy = np.copy(frame)
         frameWidth = frame.shape[1]
         frameHeight = frame.shape[0]
@@ -90,10 +90,13 @@ class HandPoseImage(object):
         if (detect != 0):
             varianceBase = varianceBase/detect
         else:
-            varianceBase = 0
+            varianceBase  = 0
 
         #print(varianceBase)
         #print(varianceFingers)
+        if (varianceBase == varianceFingers and varianceFingers == 0) {
+            return None
+        }
         return varianceFingers - varianceBase > 0
 
     '''
