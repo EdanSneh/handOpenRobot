@@ -12,11 +12,9 @@ POSE_PAIRS = [ [0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[0,9],[9,10],[10,
 
 class HandPoseImage(object):
 
-    def isHandOpen(frame):
-        pass
+    def isHandOpen(frame, fileDir):
         net = cv2.dnn.readNetFromCaffe(protoFile, weightsFile)
 
-        frame = cv2.imread("female.jpg")
         frameCopy = np.copy(frame)
         frameWidth = frame.shape[1]
         frameHeight = frame.shape[0]
@@ -94,37 +92,12 @@ class HandPoseImage(object):
 
         #print(varianceBase)
         #print(varianceFingers)
-        if (varianceBase == varianceFingers and varianceFingers == 0) {
+        if (varianceBase == varianceFingers and varianceFingers == 0):
             return None
-        }
         return varianceFingers - varianceBase > 0
 
-    '''
-    if (varianceFingers - varianceBase > 0):
-        print("open")
-    else:
-        print("closed")
-    '''
-    '''
-    # Draw Skeleton
-    for pair in POSE_PAIRS:
-        partA = pair[0]
-        partB = pair[1]
-
-        if points[partA] and points[partB]:
-            cv2.line(frame, points[partA], points[partB], (0, 255, 255), 2)
-            cv2.circle(frame, points[partA], 8, (0, 0, 255), thickness=-1, lineType=cv2.FILLED)
-            cv2.circle(frame, points[partB], 8, (0, 0, 255), thickness=-1, lineType=cv2.FILLED)
-
-
-    cv2.imshow('Output-Keypoints', frameCopy)
-    cv2.imshow('Output-Skeleton', frame)
-
-
-    cv2.imwrite('Output-Keypoints2.jpg', frameCopy)
-    cv2.imwrite('Output-Skeleton2.jpg', frame)
-
-    print("Total time taken : {:.3f}".format(time.time() - t))
-
-    cv2.waitKey(0)
-    '''
+if __name__ == "__main__":
+    frame = cv2.imread("g.jpg")
+    hpi = HandPoseImage()
+    ans = hpi.isHandOpen(frame, "")
+    print(ans)
