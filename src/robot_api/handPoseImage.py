@@ -5,6 +5,7 @@ import cv2
 import time
 import numpy as np
 import rospy 
+import os
 
 protoFile = "hand/pose_deploy.prototxt"
 weightsFile = "hand/pose_iter_102000.caffemodel"
@@ -15,7 +16,7 @@ class HandPoseImage(object):
     @staticmethod
     def isHandOpen(frame, fileDir):
         t = rospy.Time.now().to_sec()
-        net = cv2.dnn.readNetFromCaffe(fileDir + protoFile, fileDir + weightsFile)
+        net = cv2.dnn.readNetFromCaffe(os.path.join(fileDir, protoFile), os.path.join(fileDir,weightsFile))
 
         frameCopy = np.copy(frame)
         frameWidth = frame.shape[1]

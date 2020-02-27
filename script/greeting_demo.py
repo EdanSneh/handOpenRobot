@@ -2,6 +2,7 @@
 
 import rospy
 import robot_api
+import os
 
 def wait_for_time():
     """
@@ -15,11 +16,11 @@ def main():
     wait_for_time()
     
     #r = rospy.Rate(10)
-    filedir = "/home/robotics/work/learnopencv/HandPose/"
+    filedir = os.getcwd()
     #filedir = rospy.get_param('~opencv_dir')
     arm_joints = robot_api.ArmJoints()
-    #arm = robot_api.Arm()
-    arm = None
+    arm = robot_api.Arm()
+    # arm = None
     gripper = robot_api.Gripper()
     greeting = robot_api.Greeting(arm, gripper, filedir)
     #greeting.fist_bump()
