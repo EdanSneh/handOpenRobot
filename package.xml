@@ -27,6 +27,4 @@
 
   <exec_depend>fetch_description</exec_depend>
   <exec_depend>xacro</exec_depend>
-
-  <run_depend>opencv-python</run_depend>
 </package>

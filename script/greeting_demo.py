@@ -13,20 +13,19 @@ def wait_for_time():
 def main():
     rospy.init_node('greeting_demo')
     wait_for_time()
+    
     #r = rospy.Rate(10)
-    rospy.loginfo("start")
-    filedir = "/home/robotics/work/learnopencv/HandPose"
+    filedir = "/home/robotics/work/learnopencv/HandPose/"
     #filedir = rospy.get_param('~opencv_dir')
     arm_joints = robot_api.ArmJoints()
-    arm = robot_api.Arm()
+    #arm = robot_api.Arm()
+    arm = None
     gripper = robot_api.Gripper()
-    joints = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-    #r.sleep(rospy.Duration(1))
-    #rospy.loginfo("wake up")
     greeting = robot_api.Greeting(arm, gripper, filedir)
-    greeting.fist_bump()
-    greeting.hi_five()
+    #greeting.fist_bump()
+    #greeting.hi_five()
     rospy.loginfo("done")
+    rospy.spin()
 
 if __name__ == '__main__':
     main()

@@ -1,0 +1,14 @@
+material hand
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture ../textures/right-frontal.jpg
+                scale 1.0 1.0
+            }
+        }
+    }
+}

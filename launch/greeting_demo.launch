@@ -1,5 +1,5 @@
 <launch>
     <node pkg="greeting_demo" type="greeting_demo" name="greeting_demo">
-        <param name="~opencv_dir" value="/home/robotics/work/learnopencv/HandPose" />
+        <param name="~opencv_dir" value="/home/robotics/work/learnopencv/HandPose/" />
     </node>
 </launch>

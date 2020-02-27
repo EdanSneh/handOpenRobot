@@ -4,6 +4,7 @@ from __future__ import division
 import cv2
 import time
 import numpy as np
+import rospy 
 
 protoFile = "hand/pose_deploy.prototxt"
 weightsFile = "hand/pose_iter_102000.caffemodel"
@@ -11,9 +12,10 @@ nPoints = 22
 POSE_PAIRS = [ [0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[0,9],[9,10],[10,11],[11,12],[0,13],[13,14],[14,15],[15,16],[0,17],[17,18],[18,19],[19,20] ]
 
 class HandPoseImage(object):
-
+    @staticmethod
     def isHandOpen(frame, fileDir):
-        net = cv2.dnn.readNetFromCaffe(protoFile, weightsFile)
+        t = rospy.Time.now().to_sec()
+        net = cv2.dnn.readNetFromCaffe(fileDir + protoFile, fileDir + weightsFile)
 
         frameCopy = np.copy(frame)
         frameWidth = frame.shape[1]
@@ -22,7 +24,6 @@ class HandPoseImage(object):
 
         threshold = 0.1
 
-        t = time.time()
         # input image dimensions for the network
         inHeight = 368
         inWidth = int(((aspect_ratio*inHeight)*8)//8)
@@ -31,7 +32,7 @@ class HandPoseImage(object):
         net.setInput(inpBlob)
 
         output = net.forward()
-        print("time taken by network : {:.3f}".format(time.time() - t))
+        #print("time taken by network : {:.3f}".format(time.time() - t))
 
         # Empty list to store the detected keypoints
         points = []
@@ -68,7 +69,7 @@ class HandPoseImage(object):
         #get variance
         for i in [20, 16, 12, 8]:
             point = points[i]
-            if (point != None):
+            if point is not None:
                 varianceFingers += (point[0] - avgX)**2
                 varianceFingers += (point[1] - avgY)**2
                 detect += 1
@@ -80,8 +81,8 @@ class HandPoseImage(object):
         varianceBase = 0
         detect = 0
         for i in [18, 14, 10, 6]:
-            if (point != None):
-                point = points[i]
+            point = points[i]
+            if point is not None:
                 varianceBase += (point[0] - avgX)**2
                 varianceBase += (point[1] - avgY)**2
                 detect += 1
@@ -92,12 +93,13 @@ class HandPoseImage(object):
 
         #print(varianceBase)
         #print(varianceFingers)
+        rospy.loginfo((rospy.Time.now().to_sec() - t))
         if (varianceBase == varianceFingers and varianceFingers == 0):
             return None
         return varianceFingers - varianceBase > 0
 
 if __name__ == "__main__":
-    frame = cv2.imread("g.jpg")
+    frame = cv2.imread("../../_temp/hand.jpg")
     hpi = HandPoseImage()
-    ans = hpi.isHandOpen(frame, "")
+    ans = hpi.isHandOpen(frame, "/home/robotics/work/learnopencv/HandPose/")
     print(ans)

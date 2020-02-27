@@ -13,22 +13,31 @@ from .handPoseImage import HandPoseImage
 from .arm_joints import ArmJoints
 
 class Greeting(object):
-    def __init__(self, arm, gripper, image_sub, opencv_dir):
+    def __init__(self, arm, gripper, opencv_dir):
         self.arm = arm
         self.gripper = gripper
-        self.image_sub = rospy.Subscriber("/head_camera/rgb/image_raw", Image, self.image_callback)
+        self.bridge = CvBridge()
+        self.image_sub = rospy.Subscriber("/head_camera/rgb/image_raw", Image, self.image_callback, queue_size=14)
         self.opencv_dir = opencv_dir
+        self.busy = False
+        rospy.loginfo("finish startup")
     
     def image_callback(self, msg):
-        try:
-            cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
-            self.bridge = CvBridge()
-            if HandPoseImage.isHandOpen(cv_image, self.opencv_dir):
-                self.hi_five()
-            else:
-                self.fist()
-        except CvBridgeError as e:
-           print(e)
+        rospy.loginfo("busy: " + str(self.busy))
+        if not self.busy:
+            self.busy = True
+            try:
+                cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
+                self.bridge = CvBridge()
+                hand_status = HandPoseImage.isHandOpen(cv_image, self.opencv_dir)
+                rospy.loginfo(hand_status)
+                if hand_status:
+                    self.hi_five()
+                elif hand_status is not None:
+                    self.fist_bump()
+            except CvBridgeError as e:
+                print(e)
+            self.busy = False
 
     def hi_five(self):
         rospy.loginfo("start hi five")
