@@ -3,6 +3,8 @@
 import rospy
 import robot_api
 import os
+import actionlib
+from move_base_msgs.msg import MoveBaseAction
 
 def wait_for_time():
     """
@@ -20,9 +22,11 @@ def main():
     #filedir = rospy.get_param('~opencv_dir')
     arm_joints = robot_api.ArmJoints()
     arm = robot_api.Arm()
+    move_base_client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
+    move_base_client.wait_for_server()
     # arm = None
     gripper = robot_api.Gripper()
-    greeting = robot_api.Greeting(arm, gripper, filedir)
+    greeting = robot_api.Intro(move_base_client)
     #greeting.fist_bump()
     #greeting.hi_five()
     rospy.loginfo("done")

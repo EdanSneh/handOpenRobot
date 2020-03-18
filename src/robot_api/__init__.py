@@ -4,3 +4,4 @@ from .handPoseImage import HandPoseImage
 from .gripper import Gripper
 from .greeting import Greeting
 from .util import Util
+from .intro import Intro
